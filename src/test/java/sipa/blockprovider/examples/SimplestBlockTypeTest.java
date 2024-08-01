@@ -10,7 +10,7 @@ public class SimplestBlockTypeTest extends AbstractTest {
         // the simplest block type ever, no parameter, with default template that does not output anything
         output(
                 BlockProviderGenerator.create()
-                        .addType("simplest").withVersion(1, 0, 0)
+                        .addType("simplest", 1, 0, 0)
                         .registerType()
                         .generate()
         );

@@ -36,7 +36,10 @@ public class UI {
     public void disableExpressionMode(final String title, final String name, final String when) {
         final Map<String, Object> section = this.getByTitle(title);
         section.putIfAbsent(SECTION_X_EXPRESSION_MODE_DISABLED, new ArrayList<>());
-        ((List<Map<String, Object>>) section.get(SECTION_X_EXPRESSION_MODE_DISABLED)).add(Map.of("property", name, "when", when));
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put("property", name);
+        properties.put("when", when);
+        ((List<Map<String, Object>>) section.get(SECTION_X_EXPRESSION_MODE_DISABLED)).add(properties);
 
     }
 

@@ -1,10 +1,9 @@
 package sipa.blockprovider;
 
 import sipa.blockprovider.domain.Endpoint;
+import sipa.blockprovider.domain.UI;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The class to generate parameter.
@@ -34,7 +33,7 @@ public class ParameterBuilder {
      */
     public BlockTypeBuilder registerParameter() {
         if (this.endpointParameterBuilder != null) {
-            if (this.owner.blockConfiguration.getEndpoint().getUrl() == null) {
+            if (!Optional.ofNullable(this.owner.blockConfiguration.getEndpoint()).map(Endpoint::getUrl).isPresent()) {
                 throw new IllegalStateException("you must define the endpoint first");
             }
             this.owner.blockConfiguration.getEndpoint().getParameters().add(
@@ -49,7 +48,15 @@ public class ParameterBuilder {
 
         final String sectionName = this.inSection != null ? this.inSection : "Configuration";
 
-        this.owner.blockConfiguration.getEndpoint().getUi().addProperty(sectionName, Map.of(this.name, toProperty()));
+        if (this.owner.blockConfiguration.getEndpoint() == null) {
+            this.owner.blockConfiguration.setEndpoint(new Endpoint());
+        }
+
+        if (this.owner.blockConfiguration.getEndpoint().getUi() == null) {
+            this.owner.blockConfiguration.getEndpoint().setUi(new UI());
+        }
+
+        this.owner.blockConfiguration.getEndpoint().getUi().addProperty(sectionName, Collections.singletonMap(this.name, toProperty()));
 
         if (this.expressionModeDisabled != null) {
             this.owner.blockConfiguration.getEndpoint().getUi().disableExpressionMode(sectionName, this.name, this.expressionModeDisabled);
@@ -154,12 +161,12 @@ public class ParameterBuilder {
     public ParameterBuilder configurableAsWidget(final String widget, final String version, final Object configuration) {
         this.uiType = "string";
         this.additionalUIProperties.put("x-ui-configuration",
-                Map.of("widget",
-                        Map.of(
-                                "name", widget,
-                                "version", version,
-                                "configuration", configuration
-                        )
+                Collections.singletonMap("widget",
+                        new HashMap<String, Object>() {{
+                            put("name", widget);
+                            put("version", version);
+                            put("configuration", configuration);
+                        }}
                 )
         );
         return this;

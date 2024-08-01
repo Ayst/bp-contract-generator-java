@@ -2,11 +2,27 @@ package sipa.blockprovider.examples;
 
 import org.junit.jupiter.api.Test;
 import sipa.blockprovider.BlockProviderGenerator;
+import sipa.blockprovider.domain.Endpoint;
 
 import static sipa.blockprovider.ParameterBuilder.EndpointParameterBuilder.In.QUERY;
 import static sipa.blockprovider.ParameterBuilder.EndpointParameterBuilder.Type.STRING;
 
 public class BlockTypeWithEndpointTest extends AbstractTest {
+
+    @Test
+    void shouldSerializeSimpleEndpoint() {
+        output(
+                BlockProviderGenerator.create()
+                        // the block type
+                        .addType("bold",1, 0, 0)
+
+                        // declare the endpoint url
+                        .withEndpoint("https://localhost/block-configurations", "GET", Endpoint.CachePolicy.PURE, true)
+
+                        .registerType()
+                        .generate()
+        );
+    }
 
     @Test
     void shouldSerializeOneBlockType() {
@@ -16,13 +32,13 @@ public class BlockTypeWithEndpointTest extends AbstractTest {
         output(
                 BlockProviderGenerator.create()
                         // the block type
-                        .addType("bold").withVersion(1, 0, 0)
+                        .addType("bold",1, 0, 0)
 
                         // set documentation
                         .withDocumentation("http://ww.google.fr")
 
                         // declare the endpoint url
-                        .withEndpoint("https://localhost/block-configurations", "GET", "pure")
+                        .withEndpoint("https://localhost/block-configurations", "GET", Endpoint.CachePolicy.PURE, true)
 
                         // the input text
                         .addParameter("text")

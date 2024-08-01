@@ -1,5 +1,8 @@
 package sipa.blockprovider.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +16,7 @@ public class BlockType {
     private final List<BlockConfiguration> configurations;
 
     public BlockType(final BlockConfiguration blockConfiguration) {
-        this.configurations = List.of(blockConfiguration);
+        this.configurations = Collections.singletonList(blockConfiguration);
     }
 
     public String getName() {

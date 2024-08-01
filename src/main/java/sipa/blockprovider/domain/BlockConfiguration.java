@@ -9,8 +9,8 @@ import java.util.List;
 public class BlockConfiguration {
 
     private String version;
-    private final Documentation documentation = new Documentation();
-    private final Endpoint endpoint = new Endpoint();
+    private Documentation documentation;
+    private Endpoint endpoint;
     private final List<Template> templates = new ArrayList<>();
 
     public String getVersion() {
@@ -19,6 +19,10 @@ public class BlockConfiguration {
 
     public Endpoint getEndpoint() {
         return this.endpoint;
+    }
+
+    public void setEndpoint(final Endpoint endpoint) {
+        this.endpoint = endpoint;
     }
 
     public void setVersion(final String version) {
@@ -33,9 +37,18 @@ public class BlockConfiguration {
         return this.documentation;
     }
 
-    public void setDocumentation(final String url) { this.documentation.url = url; }
+    public void setDocumentation(final String url) {
+        if (this.documentation == null) {
+            this.documentation = new Documentation();
+        }
+        this.documentation.url = url;
+    }
 
     public class Documentation {
         private String url;
+
+        public String getUrl() {
+            return this.url;
+        }
     }
 }

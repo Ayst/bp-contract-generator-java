@@ -2,9 +2,9 @@ package sipa.blockprovider;
 
 import sipa.blockprovider.domain.BlockConfiguration;
 import sipa.blockprovider.domain.BlockType;
+import sipa.blockprovider.domain.Endpoint;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -30,7 +30,9 @@ public class BlockTypeBuilder {
     public BlockProviderGenerator registerType() {
         if (this.blockConfiguration.getTemplates().size() == 0) {
             // create default empty template
-            addTemplate("default").registerTemplate();
+            addTemplate("default")
+                    .withPosition(TemplateBuilder.Position.BODY_BOTTOM)
+                    .registerTemplate();
         }
         return this.owner;
     }
@@ -86,13 +88,19 @@ public class BlockTypeBuilder {
      *
      * @param url         the url of the endpoint. This endpoint *MUST* be accessible by the BMS
      * @param method      the HTTP method to use when the BMS requests it (GET|POST|...)
-     * @param cachePolicy the cache policy to associate with the endpoint (pure|impure ~=~ 1h|1min)
+     * @param cachePolicy the cache policy of the endpoint : PURE (cache one hour), IMPURE (cache few minutes), IMPURE_WITHOUT_STALE (cache few minutes, and guarantees no outdated data) or NO_CACHE (at your own risk)
+     * @param compliantWithLastModifiedHeader indicate if the endpoint is compliant with the LastModified Header (leading to a 304 status)
      * @return the block type builder
      */
-    public BlockTypeBuilder withEndpoint(final String url, final String method, final String cachePolicy) {
+    public BlockTypeBuilder withEndpoint(final String url, final String method, final Endpoint.CachePolicy cachePolicy, final boolean compliantWithLastModifiedHeader) {
+        if (this.blockConfiguration.getEndpoint() == null) {
+            this.blockConfiguration.setEndpoint(new Endpoint());
+        }
+
         this.blockConfiguration.getEndpoint().setUrl(url);
         this.blockConfiguration.getEndpoint().setMethod(method);
-        this.blockConfiguration.getEndpoint().setPure(Objects.equals(cachePolicy, "pure"));
+        this.blockConfiguration.getEndpoint().setCachePolicy(cachePolicy);
+        this.blockConfiguration.getEndpoint().setCompliantWithLastModifiedHeader(compliantWithLastModifiedHeader);
         return this;
     }
 

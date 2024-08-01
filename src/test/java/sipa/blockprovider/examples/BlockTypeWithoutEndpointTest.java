@@ -13,7 +13,7 @@ public class BlockTypeWithoutEndpointTest extends AbstractTest {
         output(
                 BlockProviderGenerator.create()
                         // the block type
-                        .addType("bold").withVersion(1, 0, 0)
+                        .addType("bold", 1, 0, 0)
 
                         // the input text
                         .addParameter("text")
@@ -46,7 +46,7 @@ public class BlockTypeWithoutEndpointTest extends AbstractTest {
         output(
                 BlockProviderGenerator.create()
                         // the block type
-                        .addType("bold").withVersion(1, 0, 0)
+                        .addType("bold", 1, 0, 0)
 
                         // set documentation
                         .withDocumentation("http://ww.google.fr")
@@ -72,7 +72,7 @@ public class BlockTypeWithoutEndpointTest extends AbstractTest {
                         .registerType()
 
                         // the block type
-                        .addType("italic").withVersion(1, 0, 0)
+                        .addType("italic", 1, 0, 0)
 
                         // the input text
                         .addParameter("text")

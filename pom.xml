@@ -6,7 +6,7 @@
 
     <groupId>io.github.ouest-france</groupId>
     <artifactId>bp-contract-generator</artifactId>
-    <version>1.0.2</version>
+    <version>3.1.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -96,8 +96,12 @@
 
     <developers>
         <developer>
+            <id>ayst</id>
+            <name>Sébastien Talidec</name>
+        </developer>
+        <developer>
             <id>poussma</id>
-            <name>Mathieu POOUSSE</name>
+            <name>Mathieu POUSSE</name>
         </developer>
     </developers>
 

@@ -32,9 +32,10 @@ public class BlockProviderGenerator {
      * @param name the name of the block type
      * @return the builder
      */
-    public BlockTypeBuilder addType(final String name) {
+    public BlockTypeBuilder addType(final String name, final int majorVersion, final int minorVersion, final int patchVersion) {
         final BlockTypeBuilder builder = new BlockTypeBuilder(this, name);
         this.types.add(builder);
+        builder.withVersion(majorVersion, minorVersion, patchVersion);
         return builder;
     }
 

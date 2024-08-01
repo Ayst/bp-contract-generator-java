@@ -10,10 +10,11 @@ public class Endpoint {
 
     private String url;
     private String method;
-    private boolean pure;
-    private final List<String> consumes = List.of();
+    private CachePolicy cachePolicy;
+    private boolean compliantWithLastModifiedHeader;
+    private List<String> consumes;
     private final List<Parameter> parameters = new ArrayList<>();
-    private final UI ui = new UI();
+    private UI ui;
 
 
     public String getUrl() {
@@ -24,8 +25,12 @@ public class Endpoint {
         return this.method;
     }
 
-    public boolean isPure() {
-        return this.pure;
+    public CachePolicy getCachePolicy() {
+        return this.cachePolicy;
+    }
+
+    public boolean isCompliantWithLastModifiedHeader() {
+        return this.compliantWithLastModifiedHeader;
     }
 
     public List<String> getConsumes() {
@@ -40,6 +45,10 @@ public class Endpoint {
         return this.ui;
     }
 
+    public void setUi(final UI ui) {
+        this.ui = ui;
+    }
+
     public void setUrl(final String url) {
         this.url = url;
     }
@@ -48,8 +57,12 @@ public class Endpoint {
         this.method = method;
     }
 
-    public void setPure(final boolean pure) {
-        this.pure = pure;
+    public void setCachePolicy(final CachePolicy cachePolicy) {
+        this.cachePolicy = cachePolicy;
+    }
+
+    public void setCompliantWithLastModifiedHeader(final boolean compliantWithLastModifiedHeader) {
+        this.compliantWithLastModifiedHeader = compliantWithLastModifiedHeader;
     }
 
     public static class Parameter {
@@ -98,6 +111,10 @@ public class Endpoint {
         public String getFormat() {
             return this.format;
         }
+    }
+
+    public enum CachePolicy {
+        PURE, IMPURE, IMPURE_WITHOUT_STALE, NO_CACHE
     }
 
 
